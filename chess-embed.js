@@ -20,17 +20,26 @@
         }
     }
 
-    ready(async () => {
-        if (!window.Chess) {
-            await loadScript(
-                "https://cdn.jsdelivr.net/npm/chess.js@1.0.0/dist/chess.min.js"
-            );
-        }
+    ready(() => {
+  if (window.Chess) {
+    start();
+    return;
+  }
 
-        document
-            .querySelectorAll("[data-unblocked-chess]")
-            .forEach(initInstance);
+  loadScript(
+    "https://cdn.jsdelivr.net/npm/chess.js@1.0.0/dist/chess.min.js"
+  )
+    .then(start)
+    .catch(() => {
+      console.error("Failed to load chess.js");
     });
+
+  function start() {
+    document
+      .querySelectorAll("[data-unblocked-chess]")
+      .forEach(initInstance);
+  }
+});
 
     function initInstance(host) {
         const root = document.createElement("div");
