@@ -3,14 +3,17 @@
     window.__UNBLOCKED_CHESS_EMBED__ = true;
 
     function loadScript(src) {
-        return new Promise((resolve, reject) => {
-            const s = document.createElement("script");
-            s.src = src;
-            s.onload = resolve;
-            s.onerror = reject;
-            document.head.appendChild(s);
-        });
-    }
+  return new Promise((resolve) => {
+    const s = document.createElement("script");
+    s.src = src;
+    s.onload = () => resolve(true);
+    s.onerror = () => {
+      console.error("Failed to load:", src);
+      resolve(false);
+    };
+    document.head.appendChild(s);
+  });
+}
 
     function ready(fn) {
         if (document.readyState === "loading") {
